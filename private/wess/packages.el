@@ -9,7 +9,7 @@
 ;;
 ;;; License: GPLv3
 
-(setq myess-packages
+(setq wess-packages
   '(
     ess
     ess-R-data-view
@@ -18,7 +18,7 @@
     polymode
     ))
 
-(defun myess/init-ess ()
+(defun wess/init-ess ()
   (use-package ess-site
     :mode (("\\.sp\\'"           . S-mode)
            ("/R/.*\\.q\\'"       . R-mode)
@@ -153,9 +153,9 @@
     (define-key inferior-ess-mode-map (kbd "C-k") 'comint-previous-input)
     ))
 
-(defun myess/init-ess-R-data-view ())
+(defun wess/init-ess-R-data-view ())
 
-(defun myess/init-ess-smart-equals ()
+(defun wess/init-ess-smart-equals ()
   (use-package ess-smart-equals
     :defer t
     :if ess-enable-smart-equals
@@ -164,7 +164,7 @@
       (add-hook 'ess-mode-hook 'ess-smart-equals-mode)
       (add-hook 'inferior-ess-mode-hook 'ess-smart-equals-mode))))
 
-(defun myess/init-polymode ()
+(defun wess/init-polymode ()
   (progn
     (defun poly-rmd-mode ()
       (interactive)
@@ -175,7 +175,7 @@
       )))
 
 
-;; (defun myess/pre-init-golden-ratio ()
+;; (defun wess/pre-init-golden-ratio ()
 ;;   (spacemacs|use-package-add-hook golden-ratio
 ;;     :post-config
 ;;     (dolist (f '(ess-eval-buffer-and-go
@@ -183,6 +183,6 @@
 ;;                  ess-eval-line-and-go))
 ;;       (add-to-list 'golden-ratio-extra-commands f))))
 
-(defun myess/pre-init-org ()
+(defun wess/pre-init-org ()
   (spacemacs|use-package-add-hook org
     :post-config (add-to-list 'org-babel-load-languages '(R . t))))

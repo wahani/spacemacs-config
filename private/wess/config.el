@@ -11,5 +11,5 @@
 
 ;; Variables
 
-(defvar ess-enable-smart-equals nil
+(defvar ess-enable-smart-equals 1
   "If non-nil smart-equal support is enabled")

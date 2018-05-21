@@ -31,10 +31,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     yaml
-     javascript
-     html
-     sql
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -45,10 +41,12 @@ values."
      better-defaults
      emacs-lisp
      git
+     yaml
+     javascript
+     html
+     sql
      markdown
-     ;; ess
-     ;; polymode
-     myess
+     wess ; instead of ess
      scala
      latex
      ;; org

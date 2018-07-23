@@ -70,7 +70,7 @@
                  ess-continued-statement-offset 0
                  ess-expression-offset 2
                  ess-nuke-trailing-whitespace-p t
-                 ess-default-style 'DEFAULT
+                 ess-default-style 'RStudio
                  ansi-color-for-comint-mode 'filter
                  comint-scroll-to-bottom-on-input t
                  comint-scroll-to-bottom-on-output t

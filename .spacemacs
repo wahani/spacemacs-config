@@ -353,11 +353,6 @@ you should place your code here."
   (define-key flyspell-mouse-map [mouse-3] #'undefined)
   (setq ispell-dictionary "english")
 
-  ;; R and ess
-  ;; (eval-after-load 'ess-site '(setq ess-ask-for-ess-directory nil))
-  (eval-after-load 'ess-site '(setq ess-local-process-name "R"))
-  (eval-after-load 'ess-site '(setq ess-default-style 'RStudio))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

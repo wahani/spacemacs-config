@@ -328,10 +328,11 @@ you should place your code here."
   ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
   ;; (define-key company-active-map (kbd "M-TAB") 'company-complete-selection)
 
-  (define-key company-active-map [return] nil)
-  (define-key company-active-map [tab] 'company-complete-common)
-  (setq tab-always-indent 'complete)
-  (define-key evil-insert-state-map (kbd "TAB") 'company-complete)
+  (with-eval-after-load 'company
+    (define-key company-active-map [return] nil)
+    (define-key company-active-map [tab] 'company-complete-common)
+    (setq tab-always-indent 'complete)
+    (define-key evil-insert-state-map (kbd "TAB") 'company-complete))
 
   ;; jump around
   (global-set-key (kbd "<f2>") 'dumb-jump-go)

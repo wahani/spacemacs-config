@@ -141,6 +141,7 @@
     (spacemacs/declare-prefix-for-mode 'ess-mode "ms" "session")
     (spacemacs/set-leader-keys-for-major-mode 'ess-mode
       "se" 'ess-execute
+      "sc" 'ess-interrupt
       "si" 'ess-install-library
       "sl" 'ess-load-library
       "sq" 'ess-quit

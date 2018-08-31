@@ -325,6 +325,16 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "U") 'undo-tree-visualize)
   (define-key evil-normal-state-map (kbd "I") 'evil-replace-state)
 
+  ;; auto-completion
+  ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
+  ;; (define-key company-active-map (kbd "M-TAB") 'company-complete-selection)
+
+  (with-eval-after-load 'company
+    (define-key company-active-map [return] nil)
+    (define-key company-active-map [tab] 'company-complete-common)
+    (setq tab-always-indent 'complete)
+    (define-key evil-insert-state-map (kbd "TAB") 'company-complete))
+
   ;; jump around
   (global-set-key (kbd "<f2>") 'dumb-jump-go)
   (global-set-key (kbd "<C-f2>") 'dumb-jump-back)
@@ -344,11 +354,6 @@ you should place your code here."
   (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
   (define-key flyspell-mouse-map [mouse-3] #'undefined)
   (setq ispell-dictionary "english")
-
-  ;; R and ess
-  ;; (eval-after-load 'ess-site '(setq ess-ask-for-ess-directory nil))
-  (eval-after-load 'ess-site '(setq ess-local-process-name "R"))
-  (eval-after-load 'ess-site '(setq ess-default-style 'RStudio))
 
   )
 

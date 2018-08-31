@@ -64,7 +64,6 @@
   ;; R --------------------------------------------------------------------------
   (setq spacemacs/ess-config
         '(progn
-           ;; Follow Hadley Wickham's R style guide
            (setq ess-first-continued-statement-offset 2
                  ess-continued-statement-offset 0
                  ess-expression-offset 2

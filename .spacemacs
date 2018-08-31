@@ -47,7 +47,7 @@ values."
      html
      sql
      markdown
-     ess ; instead of ess
+     wess ; instead of ess
      scala
      latex
      org

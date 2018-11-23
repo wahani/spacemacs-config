@@ -76,8 +76,9 @@
                  ess-execute-in-process-buffer t
                  ess-eval-visibly-p 'nowait
                  ess-toggle-S-assign nil)
-           (when ess-disable-underscore-assign
-             (ess-toggle-underscore nil))
+           (ess-toggle-underscore nil)
+           ;; (when ess-disable-underscore-assign
+           ;;   (ess-toggle-underscore nil))
 
            (define-key ess-doc-map "h" 'ess-display-help-on-object)
            (define-key ess-doc-map "p" 'ess-R-dv-pprint)

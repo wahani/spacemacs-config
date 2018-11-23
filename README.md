@@ -14,6 +14,7 @@ I may change the config at any point: This is not a stable mirror!
 
 ```
 git clone git@github.com:wahani/spacemacs-config.git spacemacs-config
-ln -s ~/spacemacs-config/private /home/sebastian/.emacs.d/private
+rm -rf .emacs.d/private
+ln -s /home/$USER/spacemacs-config/private /home/$USER/.emacs.d/private
 ln -s spacemacs-config/.spacemacs .spacemacs
 ```

@@ -325,6 +325,9 @@ you should place your code here."
   (define-key evil-normal-state-map (kbd "U") 'undo-tree-visualize)
   (define-key evil-normal-state-map (kbd "I") 'evil-replace-state)
 
+  ;; redo macro
+  (define-key evil-normal-state-map (kbd ".") 'call-last-kbd-macro)
+
   ;; auto-completion
   ;; (define-key company-active-map (kbd "TAB") 'company-complete-common)
   ;; (define-key company-active-map (kbd "M-TAB") 'company-complete-selection)

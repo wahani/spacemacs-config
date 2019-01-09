@@ -31,7 +31,6 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     nginx
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -51,6 +50,8 @@ values."
      scala
      latex
      org
+     docker
+     nginx
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottfc-cache -f -vom)
@@ -62,7 +63,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages '(default-text-scale)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -336,6 +337,7 @@ you should place your code here."
     (define-key company-active-map [return] nil)
     (define-key company-active-map [tab] 'company-complete-common)
     (setq tab-always-indent 'complete)
+    (setq company-idle-delay 1)
     (define-key evil-insert-state-map (kbd "TAB") 'company-complete))
 
   ;; jump around
@@ -350,13 +352,15 @@ you should place your code here."
   (global-set-key (kbd "C-s") 'my-save-buffer)
 
   ;; miscs
-  (global-set-key (kbd "C-+") 'text-scale-increase)
-  (global-set-key (kbd "C--") 'text-scale-decrease)
+  (global-set-key (kbd "C-+") 'default-text-scale-increase)
+  (global-set-key (kbd "C--") 'default-text-scale-decrease)
 
   (global-column-enforce-mode t)
   (define-key flyspell-mouse-map [down-mouse-3] #'flyspell-correct-word)
   (define-key flyspell-mouse-map [mouse-3] #'undefined)
   (setq ispell-dictionary "english")
+
+  (setq dired-listing-switches "-lth")
 
   )
 

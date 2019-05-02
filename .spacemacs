@@ -351,6 +351,9 @@ you should place your code here."
     (evil-force-normal-state))
   (global-set-key (kbd "C-s") 'my-save-buffer)
 
+  ;; (define-key evil-insert-state-map (kbd "C-c") 'evil-yank)
+  ;; (define-key evil-insert-state-map (kbd "C-v") 'evil-paste-after)
+
   ;; miscs
   (global-set-key (kbd "C-+") 'default-text-scale-increase)
   (global-set-key (kbd "C--") 'default-text-scale-decrease)

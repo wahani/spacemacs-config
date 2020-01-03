@@ -18,3 +18,11 @@ rm -rf .emacs.d/private
 ln -s /home/$USER/spacemacs-config/private /home/$USER/.emacs.d/private
 ln -s spacemacs-config/.spacemacs .spacemacs
 ```
+
+# R projects via ssh
+
+```
+## Local Variables:
+## ess-r-package--project-cache: (pkg-name . "/path/to/pkg/")
+## End:
+```

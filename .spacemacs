@@ -30,7 +30,8 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(csv
+     python
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
@@ -46,17 +47,24 @@ values."
      html
      sql
      markdown
-     wess ; instead of ess
+     ess
      scala
      latex
      org
      docker
      nginx
+     (go :variables
+         go-use-gometalinter t
+         go-use-golangci-lint t
+         go-backend 'lsp
+         go-format-before-save t
+         go-tab-width 4)
      ;; (shell :variables
      ;;        shell-default-height 30
-     ;;        shell-default-position 'bottfc-cache -f -vom)
+     ;;        shell-default-position 'bottfc-cache -fredentials landen nun hier im Paket um die Abhängigkeit z -vom)
      spell-checking
-     syntax-checking
+     ;; syntax-checking
+     (syntax-checking :variables syntax-checking-enable-by-default nil)
      version-control
      )
    ;; List of additional packages that will be installed without being
@@ -319,6 +327,29 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; fix from https://github.com/nonsequitur/git-gutter-plus/issues/42#issuecomment-464463744
+  (with-eval-after-load 'git-gutter+
+    (defun git-gutter+-remote-default-directory (dir file)
+      (let* ((vec (tramp-dissect-file-name file))
+             (method (tramp-file-name-method vec))
+             (user (tramp-file-name-user vec))
+             (domain (tramp-file-name-domain vec))
+             (host (tramp-file-name-host vec))
+             (port (tramp-file-name-port vec)))
+        (tramp-make-tramp-file-name method user domain host port dir)))
+    (defun git-gutter+-remote-file-path (dir file)
+      (let ((file (tramp-file-name-localname (tramp-dissect-file-name file))))
+        (replace-regexp-in-string (concat "\\`" dir) "" file))))
+
+  ;; fix from https://github.com/Alexander-Miller/treemacs/issues/225#issuecomment-457160400
+  (with-eval-after-load "helm"
+    (defun helm-persistent-action-display-window (&optional split-onewindow)
+      "Return the window that will be used for persistent action.
+If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
+      (with-helm-window
+        (setq helm-persistent-action-display-window (get-mru-window)))))
+
+
   ;; custom editing
   (define-key evil-normal-state-map (kbd "r") 'undo-tree-redo)
   (define-key evil-normal-state-map (kbd "R") 'helm-show-kill-ring)
@@ -353,6 +384,7 @@ you should place your code here."
 
   ;; (define-key evil-insert-state-map (kbd "C-c") 'evil-yank)
   ;; (define-key evil-insert-state-map (kbd "C-v") 'evil-paste-after)
+  ;; (define-key evil-insert-state-map (kbd "C-x") 'evil-delete)
 
   ;; miscs
   (global-set-key (kbd "C-+") 'default-text-scale-increase)
@@ -363,8 +395,26 @@ you should place your code here."
   (define-key flyspell-mouse-map [mouse-3] #'undefined)
   (setq ispell-dictionary "english")
 
-  (setq dired-listing-switches "-lth")
+  (setq dired-listing-switches "-lha")
 
+  (add-hook
+   'ess-mode-hook
+   (lambda ()
+     (ess-set-style 'RStudio 'quiet)
+     (setq ess-r-package-auto-activate nil)
+     (setq ess-r-package-auto-set-evaluation-env nil)
+     (setq ess-first-continued-statement-offset 2
+           ess-continued-statement-offset 0
+           ess-expression-offset 2
+           ess-nuke-trailing-whitespace-p t
+           ansi-color-for-comint-mode 'filter
+           comint-scroll-to-bottom-on-input t
+           comint-scroll-to-bottom-on-output t
+           comint-move-point-for-output t
+           ess-execute-in-process-buffer t
+           ess-eval-visibly-p 'nowait
+           ess-toggle-S-assign nil)
+     ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -395,7 +445,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-brain gnuplot evil-org powerline org-plus-contrib markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode hydra parent-mode projectile request haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct pos-tip flycheck pkg-info epl flx magit magit-popup git-commit ghub with-editor smartparens iedit anzu evil goto-chg highlight sbt-mode scala-mode web-completion-data dash-functional tern company bind-map bind-key yasnippet packed auctex helm avy helm-core async auto-complete popup f s dash nginx-mode ess-smart-equals ess-R-data-view ess ctable polymode julia-mode yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode scss-mode sass-mode restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el paradox orgit org-bullets open-junk-file noflet neotree mwim move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu ensime emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word company-web company-tern company-statistics company-auctex column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+    (csv-mode powerline org-plus-contrib markdown-mode skewer-mode simple-httpd json-snatcher json-reformat multiple-cursors js2-mode hydra parent-mode projectile request haml-mode gitignore-mode fringe-helper git-gutter+ git-gutter flyspell-correct pos-tip flycheck pkg-info epl flx magit magit-popup git-commit ghub with-editor smartparens iedit anzu evil goto-chg highlight sbt-mode scala-mode web-completion-data dash-functional tern company bind-map bind-key yasnippet packed auctex helm avy helm-core async auto-complete popup f s dash nginx-mode ess-smart-equals ess-R-data-view ess ctable polymode julia-mode yaml-mode ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toc-org tagedit sql-indent spaceline smeargle slim-mode scss-mode sass-mode restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el paradox orgit org-bullets open-junk-file noflet neotree mwim move-text mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-correct-helm flycheck-pos-tip flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu ensime emmet-mode elisp-slime-nav dumb-jump diminish diff-hl define-word company-web company-tern company-statistics company-auctex column-enforce-mode coffee-mode clean-aindent-mode auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
